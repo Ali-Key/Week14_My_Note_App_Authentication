@@ -3,11 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useUpdateNoteMutation, useGetNotesQuery } from '../store/api/NoteSlice';
+import {  useGetNotesQuery, useUpdateNotesMutation } from '../store/api/NoteSlice';
 
 const EditNote = () => {
 
-  const [updateNote ] = useUpdateNoteMutation();
+  const [updateNotes ] = useUpdateNotesMutation();
   const { data: allNotes = [] } = useGetNotesQuery();
 
   const params = useParams();
@@ -38,9 +38,9 @@ const EditNote = () => {
 
   const handleSubmit = (values) => {
  
-    updateNote({
+    updateNotes({
       id: Number(params.id),
-      updatedNote: values,
+      updatedNotes: values,
     })
 
     navigate("/");
@@ -48,7 +48,7 @@ const EditNote = () => {
   };
 
   return (
-    <div className="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
+    <div className="bg-blue-800 p-20 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -79,7 +79,7 @@ const EditNote = () => {
 
           <button
             type="submit"
-            className="block w-full bg-yellow-400 text-black font-bold p-4 rounded-lg hover:bg-yellow-500"
+            className="block w-full bg-yellow-400 text-blue-800 font-bold p-4 rounded-lg hover:bg-yellow-500"
           >
             Update Note
           </button>

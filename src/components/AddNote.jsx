@@ -1,11 +1,13 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useAddNoteMutation } from '../store/api/NoteSlice';
+import { useAddNotesMutation } from '../store/api/NoteSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AddNote = () => {
+  const navigate = useNavigate();
 
-  const [addNote ] = useAddNoteMutation();
+  const [addNotes ] = useAddNotesMutation();
 
   const initialValues = {
     title: '',
@@ -18,20 +20,21 @@ const AddNote = () => {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    // Send the data to the server (localhost:9000/create_note)
     console.log(values);
-    addNote({
+    addNotes({
       title: values.title,
       content: values.content,
+    }).then(() => {
+      navigate("/")
+       
     });
     
 
-    // Reset the form after submission
     resetForm();
   };
 
   return (
-    <div className="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
+    <div className="bg-blue-800 p-20 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -44,7 +47,7 @@ const AddNote = () => {
               id="title"
               name="title"
               placeholder="Title"
-              className="border border-gray-300 shadow p-3 w-full rounded mb-"
+              className="border border-gray-300 shadow p-6 w-full rounded mb-"
             />
             <ErrorMessage name="title" component="div" className="text-red-500" />
           </div>
@@ -61,7 +64,7 @@ const AddNote = () => {
 
           <button
             type="submit"
-            className="block w-full bg-yellow-400 text-black font-bold p-4 rounded-lg hover:bg-yellow-500"
+            className="block w-full bg-yellow-500 text-blue-800 font-bold p-4 rounded-lg hover:bg-yellow-400"
           >
             Add Note
           </button>
